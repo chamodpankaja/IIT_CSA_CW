@@ -11,7 +11,7 @@
         </servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>com.mycompany.chamod.cw</param-value>
+            <param-value>com.mycompany.chamod_cw</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
