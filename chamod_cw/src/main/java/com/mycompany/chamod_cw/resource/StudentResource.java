@@ -4,7 +4,7 @@
  */
 package com.mycompany.chamod_cw.resource;
 
-import com.mycompany.chamod_cw.dao.StudentDAO;
+import com.mycompany.chamod_cw.DAO.StudentDAO;
 import com.mycompany.chamod_cw.model.Student;
 import java.util.List;
 import javax.ws.rs.Consumes;
