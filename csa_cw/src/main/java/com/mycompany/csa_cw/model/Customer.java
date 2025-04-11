@@ -8,18 +8,19 @@ package com.mycompany.csa_cw.model;
  *
  * @author chamodpankaja
  */
-public class Author {
+public class Customer {
+    
     private int id;
     private String name;
-    private String biography;
+    private String email;
 
-    public Author() {
+    public Customer() {
     }
 
-    public Author(int id, String name, String biography) {
+    public Customer(int id, String name, String email) {
         this.id = id;
         this.name = name;
-        this.biography = biography;
+        this.email = email;
     }
     
 
@@ -39,13 +40,14 @@ public class Author {
         this.name = name;
     }
 
-    public String getBiography() {
-        return biography;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBiography(String biography) {
-        this.biography = biography;
+    public void setEmail(String email) {
+        this.email = email;
     }
+    
     
     
 }
