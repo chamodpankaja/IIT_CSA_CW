@@ -11,7 +11,7 @@ package com.mycompany.csa_cw.model;
 public class Book {
     private int bookId;
     private String bookTitle;
-    private String authorId;
+    private int authorId;
     private String ISBN;
     private int publicationYear;
     private double price;
@@ -22,7 +22,7 @@ public class Book {
     
     }
 
-    public Book(int bookId, String bookTitle, String authorId, String ISBN, int publicationYear, double price, int stockQuantity) {
+    public Book(int bookId, String bookTitle, int authorId, String ISBN, int publicationYear, double price, int stockQuantity) {
         this.bookId = bookId;
         this.bookTitle = bookTitle;
         this.authorId = authorId;
@@ -50,11 +50,11 @@ public class Book {
         this.bookTitle = bookTitle;
     }
 
-    public String getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(String authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 

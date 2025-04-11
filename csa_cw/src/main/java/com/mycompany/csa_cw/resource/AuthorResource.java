@@ -1,0 +1,62 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.csa_cw.resource;
+
+import com.mycompany.csa_cw.dao.AuthorDAO;
+import com.mycompany.csa_cw.model.Author;
+import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author chamodpankaja
+ */
+
+@Path("/authors")
+public class AuthorResource {
+    
+    
+    private AuthorDAO authorDAO = new AuthorDAO();
+    
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Author> getAllAuthors(){
+
+        return authorDAO.getAllAuthors();
+    }
+    
+    
+    @GET
+    @Path("/{authorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Author getBooktById(@PathParam("authorId") int authorId) {
+        
+        return authorDAO.getAuthorById(authorId);
+    }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addAuthor(Author author){
+    
+        Author addAuthor =  authorDAO.addAuthor(author);
+        return Response
+                .status(Response.Status.CREATED)
+                .entity(addAuthor)
+                .build();
+        
+    }
+    
+    
+    
+}
