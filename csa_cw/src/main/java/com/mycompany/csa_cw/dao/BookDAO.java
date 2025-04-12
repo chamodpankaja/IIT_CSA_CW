@@ -81,6 +81,32 @@ public class BookDAO {
 
         return "Book deleted successfully with ID: " + id;
     }
+    
+    
+    public Book updateBook(int bookId, Book updatedBook){
+    
+        Book existingBook = getBookById(bookId);
+        
+        try{
+            
+            validateBookInput(updatedBook);
+            validateBook(updatedBook);
+            
+            existingBook.setBookTitle(updatedBook.getBookTitle());
+            existingBook.setAuthorId(updatedBook.getAuthorId());
+            existingBook.setISBN(updatedBook.getISBN());
+            existingBook.setPublicationYear(updatedBook.getPublicationYear());
+            existingBook.setPrice(updatedBook.getPrice());
+            existingBook.setStockQuantity(updatedBook.getStockQuantity());
+            
+            return existingBook;
+            
+        
+        }catch(InputMismatchException e){
+        
+            throw new InvalidInputException("Invalid input provided : " + e.getMessage());
+        }
+    }
 
     private void validateBookInput(Book book) throws InvalidInputException {
         if (book.getBookTitle() == null || book.getBookTitle().trim().isEmpty()) {

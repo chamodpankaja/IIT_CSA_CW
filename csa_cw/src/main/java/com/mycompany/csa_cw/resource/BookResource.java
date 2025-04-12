@@ -5,6 +5,7 @@
 package com.mycompany.csa_cw.resource;
 
 import com.mycompany.csa_cw.dao.BookDAO;
+import com.mycompany.csa_cw.exceptions.AuthorNotFoundException;
 import com.mycompany.csa_cw.exceptions.BookNotFoundException;
 import com.mycompany.csa_cw.exceptions.InvalidInputException;
 import com.mycompany.csa_cw.model.Book;
@@ -14,6 +15,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -73,6 +75,14 @@ public class BookResource {
     public Response deleteBook(@PathParam("bookId") int id) {
         String message = bookDAO.deleteBook(id);
         return Response.ok(Map.of("message", message)).build();
+    }
+
+    @PUT
+    @Path("/{bookId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book updateBook(@PathParam("bookId") int id, Book book) {
+        return bookDAO.updateBook(id, book);
     }
 
 }
