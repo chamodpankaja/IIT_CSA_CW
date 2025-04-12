@@ -20,42 +20,40 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<RuntimeException> {
-    
+
     @Override
-    
     public Response toResponse(RuntimeException exception) {
         Map<String, String> errorResponse = new HashMap<>();
 
         if (exception instanceof BookNotFoundException) {
-            
-            errorResponse.put("error" ,exception.getMessage());
+            errorResponse.put("error", "Book Not Found");
+            errorResponse.put("message", exception.getMessage());
             return Response.status(Response.Status.NOT_FOUND)
-                           .entity(errorResponse)
-                           .type(MediaType.APPLICATION_JSON)
-                           .build();
-        }else if(exception instanceof AuthorNotFoundException){
-            
-            errorResponse.put("error" ,exception.getMessage());
+                    .entity(errorResponse)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } else if (exception instanceof AuthorNotFoundException) {
+            errorResponse.put("error", "Author Not Found");
+            errorResponse.put("message", exception.getMessage());
             return Response.status(Response.Status.NOT_FOUND)
-                           .entity(errorResponse)
-                           .type(MediaType.APPLICATION_JSON)
-                           .build();    
-        
-        }else if(exception instanceof InvalidInputException){
-        
-            errorResponse.put("error" ,exception.getMessage());
+                    .entity(errorResponse)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } else if (exception instanceof InvalidInputException) {
+            errorResponse.put("error", "Invalid Input");
+            errorResponse.put("message", exception.getMessage());
             return Response.status(Response.Status.BAD_REQUEST)
-                           .entity(errorResponse)
-                           .type(MediaType.APPLICATION_JSON)
-                           .build();    
-        
+                    .entity(errorResponse)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
-        errorResponse.put("error", "Internal server error");
+        // Default fallback
+        errorResponse.put("error", "Internal Server Error");
+        errorResponse.put("message", "An unexpected error occurred.");
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                       .entity(errorResponse)
-                       .type(MediaType.APPLICATION_JSON)
-                       .build();
+                .entity(errorResponse)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
-    
 }

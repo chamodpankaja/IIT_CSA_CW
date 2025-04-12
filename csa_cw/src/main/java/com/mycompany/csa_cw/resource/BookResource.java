@@ -11,6 +11,7 @@ import com.mycompany.csa_cw.model.Book;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -43,20 +44,35 @@ public class BookResource {
         return bookDAO.getBookById(bookId);
     }
 
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response addBook(Book book) {
+//        try {
+//            Book addedBook = bookDAO.addBook(book);
+//            return Response.ok().entity(addedBook).build();
+//        } catch (InvalidInputException e) {
+//        return Response.status(Response.Status.BAD_REQUEST)
+//                     .entity(Map.of(
+//                         "error", e.getMessage()
+//                     ))
+//                     .build();
+//        } 
+//    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addBook(Book book) {
-        try {
-            Book addedBook = bookDAO.addBook(book);
-            return Response.ok().entity(addedBook).build();
-        } catch (InvalidInputException e) {
-        return Response.status(Response.Status.BAD_REQUEST)
-                     .entity(Map.of(
-                         "error", e.getMessage()
-                     ))
-                     .build();
-        } 
+        Book addedBook = bookDAO.addBook(book);
+        return Response.ok().entity(addedBook).build();
+    }
+
+    @DELETE
+    @Path("/{bookId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteBook(@PathParam("bookId") int id) {
+        String message = bookDAO.deleteBook(id);
+        return Response.ok(Map.of("message", message)).build();
     }
 
 }

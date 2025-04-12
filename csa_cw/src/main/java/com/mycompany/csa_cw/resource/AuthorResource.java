@@ -7,7 +7,9 @@ package com.mycompany.csa_cw.resource;
 import com.mycompany.csa_cw.dao.AuthorDAO;
 import com.mycompany.csa_cw.model.Author;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -39,7 +41,7 @@ public class AuthorResource {
     @GET
     @Path("/{authorId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Author getBooktById(@PathParam("authorId") int authorId) {
+    public Author getAuthorById(@PathParam("authorId") int authorId) {
         
         return authorDAO.getAuthorById(authorId);
     }
@@ -56,6 +58,20 @@ public class AuthorResource {
                 .build();
         
     }
+    
+    
+    @DELETE
+    @Path("/{authorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteAuthor(@PathParam("authorId") int authorId){
+        
+        String message = authorDAO.deleteAuthor(authorId);
+        return Response.ok(Map.of("message",message)).build();
+                
+    
+        
+    }
+    
     
     
     

@@ -49,6 +49,18 @@ public class AuthorDAO {
     
     }
     
+    public String deleteAuthor(int authorId){
+        
+        boolean removed = authors.removeIf(author -> author.getId() == authorId);
+        
+        if (!removed) {
+            throw new AuthorNotFoundException("Author with ID: " + authorId + " not found");
+        }
+
+        return "Author deleted successfully with ID: " + authorId;
+        
+    }
+    
     
     
 }

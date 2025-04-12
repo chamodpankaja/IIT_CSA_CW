@@ -83,13 +83,3 @@ public class StudentResource {
    
 }
 
-//{
-//  "bookId": 100102,
-//  "bookTitle": "To Kill a Mockingbird",
-//  "authorId": "2",
-//  "isbn": "978-0-06-112008-4",
-//  "publicationYear": "1500",
-//  "price": 15.5,
-//  "stockQuantity": 75
-//}
-
