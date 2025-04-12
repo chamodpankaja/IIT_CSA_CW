@@ -5,7 +5,9 @@
 package com.mycompany.csa_cw.dao;
 
 import com.mycompany.csa_cw.exceptions.AuthorNotFoundException;
+import com.mycompany.csa_cw.exceptions.InvalidInputException;
 import com.mycompany.csa_cw.model.Author;
+import com.mycompany.csa_cw.model.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,12 +20,16 @@ public class AuthorDAO {
     
     private static List<Author> authors = new ArrayList<>();
     private static AtomicInteger id =  new AtomicInteger(1);
+    private static List<Book> books = new ArrayList<>();
     
     static{
     
         authors.add(new Author(id.getAndIncrement(), 
             "J.R.R. Tolkien", 
             "Author of The Lord of the Rings"));
+        authors.add(new Author(id.getAndIncrement(), 
+            "chamod pankaja", 
+            "Author of The harry potter"));
     
     }
     
@@ -42,6 +48,14 @@ public class AuthorDAO {
     }
     
     public Author addAuthor(Author author){
+        
+        if (author.getName() == null || author.getName().trim().isEmpty()) {
+            throw new InvalidInputException("Author name cannot be null or empty.");
+        }
+
+        if (author.getBiography() == null || author.getBiography().trim().isEmpty()) {
+            throw new InvalidInputException("Author biography cannot be null or empty.");
+        }
     
         author.setId(id.getAndIncrement());
         authors.add(author);
@@ -59,6 +73,52 @@ public class AuthorDAO {
 
         return "Author deleted successfully with ID: " + authorId;
         
+    }
+    
+    public Author updateAuthor(int authorId, Author updatedAuthor){
+    
+        Author existingAuthor = getAuthorById(authorId);
+        
+        if (updatedAuthor.getName() == null || updatedAuthor.getName().trim().isEmpty()) {
+            throw new InvalidInputException("Author name cannot be null or empty.");
+        }
+
+        if (updatedAuthor.getBiography() == null || updatedAuthor.getBiography().trim().isEmpty()) {
+            throw new InvalidInputException("Author biography cannot be null or empty.");
+        }
+        
+        existingAuthor.setName(updatedAuthor.getName());
+        existingAuthor.setBiography(updatedAuthor.getBiography());
+        
+        return existingAuthor;
+        
+    
+    }
+    
+//    public List<Book> getBookByAuthor(int authorId){
+//    
+//    
+//        List<Book> authorWroteBooks = new ArrayList<>();
+//        
+//        
+//        for(Book book : books){
+//        
+//            if(book.getAuthorId() ==authorId){
+//            
+//                authorWroteBooks.add(book);
+//            }
+//        
+//        }
+//        
+//     
+//
+//        return authorWroteBooks;
+//    
+//    }
+    
+    
+    public boolean authorExists(int authorId) {
+        return authors.stream().anyMatch(a -> a.getId() == authorId);
     }
     
     

@@ -145,5 +145,19 @@ public class BookDAO {
         }
 
     }
+    
+        public List<Book> getBooksByAuthor(int authorId) {
+        List<Book> authorBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getAuthorId() == authorId) {
+                authorBooks.add(book);
+            }
+        }
+
+//        if (authorBooks.isEmpty()) {
+//            throw new AuthorNotFoundException("No books found for author with ID: " + authorId);
+//        }
+        return authorBooks; // Returns empty list if no books found
+    }
 
 }
