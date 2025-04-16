@@ -113,7 +113,6 @@ public class AuthorResource {
                 throw new AuthorNotFoundException("Author with ID " + authorId + " not found");
             }
             
-            // Then get books (may be empty)
             List<Book> books = bookDAO.getBooksByAuthor(authorId);
             return Response.ok(books).build();
             

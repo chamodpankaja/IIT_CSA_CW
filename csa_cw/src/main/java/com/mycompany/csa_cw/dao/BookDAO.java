@@ -154,10 +154,10 @@ public class BookDAO {
             }
         }
 
-//        if (authorBooks.isEmpty()) {
-//            throw new AuthorNotFoundException("No books found for author with ID: " + authorId);
-//        }
-        return authorBooks; // Returns empty list if no books found
+        if (authorBooks.isEmpty()) {
+            throw new AuthorNotFoundException("No books found for author with ID: " + authorId);
+        }
+        return authorBooks; 
     }
 
 }
