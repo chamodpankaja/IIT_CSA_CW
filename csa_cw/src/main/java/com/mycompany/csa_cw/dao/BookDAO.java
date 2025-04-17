@@ -72,15 +72,26 @@ public class BookDAO {
 
     }
 
-    public String deleteBook(int id) {
+//    public String deleteBook(int id) {
+//        boolean removed = books.removeIf(book -> book.getBookId() == id);
+//
+//        if (!removed) {
+//            throw new BookNotFoundException("Book with ID: " + id + " not found");
+//        }
+//
+//        return "Book deleted successfully with ID: " + id;
+//    }
+    
+    public void deleteBook(int id) {
         boolean removed = books.removeIf(book -> book.getBookId() == id);
 
         if (!removed) {
             throw new BookNotFoundException("Book with ID: " + id + " not found");
         }
 
-        return "Book deleted successfully with ID: " + id;
+        
     }
+
     
     
     public Book updateBook(int bookId, Book updatedBook){

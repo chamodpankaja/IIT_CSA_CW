@@ -69,12 +69,21 @@ public class BookResource {
         return Response.ok().entity(addedBook).build();
     }
 
+//    @DELETE
+//    @Path("/{bookId}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response deleteBook(@PathParam("bookId") int id) {
+//        String message = bookDAO.deleteBook(id);
+//        return Response.ok(Map.of("message", message)).build();
+//    }
+
+    
     @DELETE
     @Path("/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteBook(@PathParam("bookId") int id) {
-        String message = bookDAO.deleteBook(id);
-        return Response.ok(Map.of("message", message)).build();
+        bookDAO.deleteBook(id);
+        return Response.noContent().build(); // Returns HTTP 204
     }
 
     @PUT
