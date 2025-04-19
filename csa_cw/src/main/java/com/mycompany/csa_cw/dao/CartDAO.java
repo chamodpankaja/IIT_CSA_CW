@@ -11,11 +11,9 @@ import com.mycompany.csa_cw.model.Cart;
 import com.mycompany.csa_cw.model.CartItem;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-//import java.util.logging.Logger;
 
 public class CartDAO {
-    private static final Logger LOGGER = Logger.getLogger(CartDAO.class.getName());
+    
     private static Map<Integer, Cart> carts = new HashMap<>();
     private final BookDAO bookDAO = new BookDAO();
     private final CustomerDAO customerDAO = new CustomerDAO();
@@ -92,9 +90,16 @@ public class CartDAO {
     
     }
     
-    public Cart deletItem(int customerId, int bookId){
+    public Cart deletItem(int customerId, int bookId) throws CustomerNotFoundException, BookNotFoundException{
     
-    
-    return  null;
+         if (!customerDAO.customerExists(customerId)) {
+            throw new CustomerNotFoundException("Customer with ID: " + String.valueOf(customerId) + " not found");
+        }
+        
+        Cart cart =  carts.get(customerId);
+        if(cart ==  null){
+             throw new CustomerNotFoundException("Cart not found for customer ID: " + String.valueOf(customerId) );
+        }
+   
     }
 }
