@@ -4,21 +4,30 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author chamodpankaja
  */
 public class CartItem {
-    
     private int bookId;
     private int quantity;
 
-    public CartItem(int bookId, int quantity) {
+    // Default constructor (required for Jackson)
+    public CartItem() {}
+
+    // Full constructor with JSON annotations
+    @JsonCreator
+    public CartItem(
+            @JsonProperty("bookId") int bookId,
+            @JsonProperty("quantity") int quantity) {
         this.bookId = bookId;
         this.quantity = quantity;
     }
-    
-    
+
+    // Getters and setters (required for Jackson)
     public int getBookId() {
         return bookId;
     }
@@ -34,7 +43,4 @@ public class CartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
-    
-    
 }

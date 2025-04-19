@@ -21,7 +21,10 @@ public class CustomerDAO {
     private static AtomicInteger id = new AtomicInteger(1);
     
     
+    static{
     
+        customers.add(new Customer(id.getAndIncrement(),"chamod pankaja","pankaja@gmailcom","pankaja123"));
+    }
     public List<Customer> getAllCustomers(){
     
         return new ArrayList<>(customers);
@@ -105,6 +108,12 @@ public class CustomerDAO {
     
     
     }
+    
+    
+    public boolean customerExists(int customerId) {
+        return customers.stream().anyMatch(c -> c.getId() == customerId);
+    }
+    
     
     
 }

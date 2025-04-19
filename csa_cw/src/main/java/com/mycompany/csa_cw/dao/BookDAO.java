@@ -7,6 +7,7 @@ package com.mycompany.csa_cw.dao;
 import com.mycompany.csa_cw.exceptions.AuthorNotFoundException;
 import com.mycompany.csa_cw.exceptions.BookNotFoundException;
 import com.mycompany.csa_cw.exceptions.InvalidInputException;
+import com.mycompany.csa_cw.exceptions.OutOfStockException;
 import com.mycompany.csa_cw.model.Book;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -171,4 +172,24 @@ public class BookDAO {
         return authorBooks; 
     }
 
+    public void reserveBook(int bookId, int quantity)throws BookNotFoundException,OutOfStockException{
+    
+        Book book = getBookById(bookId);
+        if(book.getStockQuantity() < quantity){
+        
+            throw new OutOfStockException("Only " + book.getStockQuantity() + " units available for book ID : "+ bookId);
+        }
+        book.setStockQuantity(book.getStockQuantity()-quantity);
+            
+    }
+    
+    public void restockBook(int bookId , int quantity) throws BookNotFoundException{
+    
+        Book book =  getBookById(bookId);
+        book.setStockQuantity(book.getStockQuantity()+quantity);
+        
+    
+    }
+        
+        
 }
