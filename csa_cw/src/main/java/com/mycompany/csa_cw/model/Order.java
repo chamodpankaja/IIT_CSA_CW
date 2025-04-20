@@ -4,6 +4,7 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +14,9 @@ import java.util.List;
  */
 public class Order {
     
-    private int id;
+    private int orderId;
     private int customerId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Colombo")
     private Date orderDate;
     private List<CartItem> items;
     private double total;
@@ -22,20 +24,20 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id,int customerId, Date orderDate, List<CartItem> items, double total) {
-        this.id = id;
+    public Order(int orderId,int customerId, Date orderDate, List<CartItem> items, double total) {
+        this.orderId = orderId;
         this.customerId =  customerId;
         this.orderDate = orderDate;
         this.items = items;
         this.total = total;
     }
 
-    public int getId() {
-        return id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public Date getOrderDate() {
@@ -69,7 +71,6 @@ public class Order {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
-    
     
     
 }
