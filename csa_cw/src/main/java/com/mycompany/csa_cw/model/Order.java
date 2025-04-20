@@ -14,6 +14,7 @@ import java.util.List;
 public class Order {
     
     private int id;
+    private int customerId;
     private Date orderDate;
     private List<CartItem> items;
     private double total;
@@ -21,8 +22,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, Date orderDate, List<CartItem> items, double total) {
+    public Order(int id,int customerId, Date orderDate, List<CartItem> items, double total) {
         this.id = id;
+        this.customerId =  customerId;
         this.orderDate = orderDate;
         this.items = items;
         this.total = total;
@@ -58,6 +60,14 @@ public class Order {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
     
     
