@@ -100,6 +100,17 @@ public class CartDAO {
         if(cart ==  null){
              throw new CustomerNotFoundException("Cart not found for customer ID: " + String.valueOf(customerId) );
         }
-   
+        
+        CartItem itemToRemove = cart.getItems().stream()
+                .filter(item -> item.getBookId() == bookId)
+                .findFirst()
+               .orElseThrow(() ->new BookNotFoundException("Book with ID: " + bookId + " not found in cart") );
+        
+        
+        bookDAO.restockBook(bookId, itemToRemove.getQuantity());
+        cart.getItems().removeIf(item -> item.getBookId() == bookId);
+        
+        return cart;
+
     }
 }

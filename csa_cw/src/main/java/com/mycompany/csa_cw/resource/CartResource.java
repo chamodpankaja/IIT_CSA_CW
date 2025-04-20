@@ -11,6 +11,7 @@ import com.mycompany.csa_cw.exceptions.OutOfStockException;
 import com.mycompany.csa_cw.model.Cart;
 import com.mycompany.csa_cw.model.CartItem;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -68,6 +69,17 @@ public class CartResource {
         
     
     }
+    
+    @DELETE
+    @Path("/items/{bookId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteItem(@PathParam("customerId") int customerId ,  @PathParam("bookId") int bookId){
+    
+        Cart deleteItem =  cartDAO.deletItem(customerId, bookId);
+        return Response.noContent().build();
+    
+    }
+    
         
     
     
