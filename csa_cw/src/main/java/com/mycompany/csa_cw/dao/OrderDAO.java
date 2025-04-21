@@ -49,7 +49,7 @@ public class OrderDAO {
             total+=bookDAO.getBookById(item.getBookId()).getPrice()*item.getQuantity();
         }
         
-        Order order =  new Order(orderId.getAndIncrement(),customerId,new Date(),new ArrayList<>(cart.getItems()),total);
+        Order order =  new Order(orderId.getAndIncrement(),customerId,customerDAO.getCustomerById(customerId).getName(),customerDAO.getCustomerById(customerId).getEmail(),new Date(),new ArrayList<>(cart.getItems()),total);
         
         customerOrders.computeIfAbsent(customerId, k -> new ArrayList<>()).add(order);
         

@@ -4,6 +4,7 @@
  */
 package com.mycompany.csa_cw.resource;
 
+import com.mycompany.csa_cw.dao.BookDAO;
 import com.mycompany.csa_cw.dao.CartDAO;
 import com.mycompany.csa_cw.exceptions.BookNotFoundException;
 import com.mycompany.csa_cw.exceptions.CustomerNotFoundException;
@@ -25,6 +26,7 @@ import javax.ws.rs.core.Response;
 @Path("/customers/{customerId}/cart")
 public class CartResource {
     private final CartDAO cartDAO = new CartDAO();
+    private final BookDAO bookDAO =  new BookDAO();
     
     
     @GET
@@ -50,7 +52,7 @@ public class CartResource {
                         .build();
             }
             
-            Cart updatedCart = cartDAO.addItem(customerId, item);
+            Cart updatedCart = cartDAO.addItem(customerId, item,bookDAO);
             return Response.status(Response.Status.CREATED)
                     .entity(updatedCart)
                     .build();

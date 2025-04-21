@@ -13,7 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CartItem {
     private int bookId;
+    private String bookName;
     private int quantity;
+    private double price;
+    
 
     // Default constructor (required for Jackson)
     public CartItem() {}
@@ -22,9 +25,13 @@ public class CartItem {
     @JsonCreator
     public CartItem(
             @JsonProperty("bookId") int bookId,
-            @JsonProperty("quantity") int quantity) {
+            @JsonProperty("bookName") String bookName,
+            @JsonProperty("quantity") int quantity,
+            @JsonProperty("price") double price) {
         this.bookId = bookId;
+        this.bookName =  bookName;
         this.quantity = quantity;
+        this.price =  price;
     }
 
     // Getters and setters (required for Jackson)
@@ -43,4 +50,22 @@ public class CartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    
 }
