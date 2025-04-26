@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,14 +20,16 @@ import org.slf4j.LoggerFactory;
  */
 public class BookDAO {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookDAO.class);
-
+   // array list for store the book details
     private static List<Book> books = new ArrayList<>();
+    // atomic integer to generate book id
     private static AtomicInteger id = new AtomicInteger(100100);
+    // author dao for access the methods belongs to author dao
     private final AuthorDAO authorDAO = new AuthorDAO();
 
     static {
-
+        
+        // add bokks to the system
         books.add(new Book(id.getAndIncrement(), "Clean Code", 1,
                 "978-0-13-235088-4", 2008, 34.99, 50));
         books.add(new Book(id.getAndIncrement(), "Effective Java", 2,
@@ -46,36 +46,30 @@ public class BookDAO {
                 "978-0-13-937681-8", 1984, 29.99, 45));
 
     }
-
+    
+    // get alll the book details in the system
     public List<Book> getAllBooks() {
-        logger.info("Fetching all books");
 
         return new ArrayList<>(books);
     }
-
-//    public Book getBookById(int id) {
-//        return books.stream()
-//                .filter(b -> b.getBookId() == id)
-//                .findFirst()
-//                .orElseThrow(()
-//                        -> new BookNotFoundException("Book with ID: " + String.valueOf(id) + " not found"));
-//
-//    }
+ 
+    
+    // method for get book details by book ID
     public Book getBookById(int id) {
-        logger.debug("Fetching book with ID: {}", id);
+        
         return books.stream()
                 .filter(b -> b.getBookId() == id)
                 .findFirst()
                 .orElseThrow(() -> {
-                    logger.warn("Book not found with ID: {}", id);
                     return new BookNotFoundException("Book with ID: " + id + " not found");
                 });
     }
 
+    // method for the add bok to system
     public Book addBook(Book book) {
 
         try {
-
+            // validate book and input fields
             validateBookInput(book);
             validateBook(book);
 
@@ -99,15 +93,7 @@ public class BookDAO {
 
     }
 
-//    public String deleteBook(int id) {
-//        boolean removed = books.removeIf(book -> book.getBookId() == id);
-//
-//        if (!removed) {
-//            throw new BookNotFoundException("Book with ID: " + id + " not found");
-//        }
-//
-//        return "Book deleted successfully with ID: " + id;
-//    }
+    //method for the remove book from the system
     public void deleteBook(int id) {
         boolean removed = books.removeIf(book -> book.getBookId() == id);
 
@@ -116,13 +102,15 @@ public class BookDAO {
         }
 
     }
-
+    
+    // method for the update book datails
     public Book updateBook(int bookId, Book updatedBook) {
-
+        
+        // get the exact bok
         Book existingBook = getBookById(bookId);
 
         try {
-
+            // validate the fileds
             validateBookInput(updatedBook);
             validateBook(updatedBook);
 
@@ -141,6 +129,7 @@ public class BookDAO {
         }
     }
 
+    // method for input validation for the book
     private void validateBookInput(Book book) throws InvalidInputException {
         if (book.getBookTitle() == null || book.getBookTitle().trim().isEmpty()) {
             throw new InvalidInputException("Book title cannot be empty");
@@ -155,18 +144,22 @@ public class BookDAO {
             throw new InvalidInputException("Stock quantity cannot be negative");
         }
     }
-
+    
+    //method for validate book
     private void validateBook(Book book) throws InvalidInputException, AuthorNotFoundException {
         validateAuthorExists(book.getAuthorId());
         validatePublicationYear(book.getPublicationYear());
     }
 
+    // method for the check author if available in the system or not to prevent the wrong books adding to the system
     private void validateAuthorExists(int authorId) throws AuthorNotFoundException {
         if (authorDAO.getAuthorById(authorId) == null) {
             throw new AuthorNotFoundException("Author with ID : " + String.valueOf(authorId) + " not found.");
         }
     }
-
+    
+    
+    // method for the validate the publication year of a book
     private void validatePublicationYear(int year) throws InvalidInputException {
 
         if (year > java.time.Year.now().getValue()) {
@@ -178,7 +171,8 @@ public class BookDAO {
         }
 
     }
-
+    
+    // method for the retrieve the author wrote books 
     public List<Book> getBooksByAuthor(int authorId) {
 
         List<Book> authorBooks = new ArrayList<>();
@@ -194,6 +188,7 @@ public class BookDAO {
         return authorBooks;
     }
 
+    // method for the contro; order reservations
     public void reserveBook(int bookId, int quantity) throws BookNotFoundException, OutOfStockException {
 
         Book book = getBookById(bookId);
@@ -204,7 +199,8 @@ public class BookDAO {
         book.setStockQuantity(book.getStockQuantity() - quantity);
 
     }
-
+    
+    // method for the add the restocked books to the system
     public void restockBook(int bookId, int quantity) throws BookNotFoundException {
 
         Book book = getBookById(bookId);
