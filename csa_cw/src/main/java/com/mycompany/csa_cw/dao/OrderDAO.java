@@ -22,15 +22,21 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class OrderDAO {
     
+    // hash map for the store order details
     private static Map<Integer , List<Order>> customerOrders = new HashMap<>();
+    // atomic integer for the generate order id
     private static AtomicInteger orderId = new AtomicInteger(1);
+    // cart dao object
     private final CartDAO cartDAO =  new CartDAO();
+    // book dao object
     private final BookDAO bookDAO = new BookDAO();
+    // customer dao object
     private final CustomerDAO customerDAO = new CustomerDAO();
     
-    
+    // method for create order
     public Order createOrder(int customerId) throws CustomerNotFoundException,CartNotFoundException{
         
+        // check the customer is available on the system or not
         if(!customerDAO.customerExists(customerId)){
         
             throw new CustomerNotFoundException("Customer with ID: " + String.valueOf(customerId) + " not found");
@@ -42,7 +48,7 @@ public class OrderDAO {
             throw new CartNotFoundException("cannot create order from empty cart");
         }
         
-        
+        // calculate the total amount of the order
         double total = 0;
         for(CartItem item : cart.getItems()){
         
@@ -53,12 +59,13 @@ public class OrderDAO {
         
         customerOrders.computeIfAbsent(customerId, k -> new ArrayList<>()).add(order);
         
+        // after the order place clear the cart details
         cart.getItems().clear();
         return order;
         
     }
     
-    
+    // method for retrieve the all customer orders
     public List<Order> getCustomerOrders(int customerId) throws CustomerNotFoundException{
     
         if(!customerDAO.customerExists(customerId)){
@@ -70,6 +77,7 @@ public class OrderDAO {
     
     }
     
+    // method for the retrieve the order details by customer id
     public Order getOrderById(int customerId, int orderId ) throws CustomerNotFoundException{
     
         

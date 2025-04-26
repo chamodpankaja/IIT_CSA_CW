@@ -89,15 +89,18 @@ public class CartDAO {
                 .filter(item -> item.getBookId() == bookId)
                 .findFirst()
                 .orElseThrow(() -> new BookNotFoundException("Book with ID: " + bookId + " not found in cart"));
-
+        
+        // get the old quantity and calculate the quantity difference of the cart item
         int oldQuantity = existingItem.getQuantity();
         int quantityDifference = newQuantity - oldQuantity;
-
+        
+        //if difference > 0 decrease the original stock quantity
         if (quantityDifference > 0) {
 
             bookDAO.reserveBook(bookId, quantityDifference);
         } else if (quantityDifference < 0) {
-
+            
+             //if difference < 0 increase the original stock quantity
             bookDAO.restockBook(bookId, -quantityDifference);
         }
 
