@@ -4,6 +4,8 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +15,17 @@ import java.util.List;
  */
 public class Cart {
     
-    private int customerId;
-    private List<CartItem> items = new ArrayList<>();
-
-    public Cart(int customerId) {
+    private int customerId;// customer id
+    private List<CartItem> items = new ArrayList<>();//customer ordered items
+    
+    // fully argument constructor with JSON annotations
+    @JsonCreator
+    public Cart(
+            @JsonProperty("customerId")int customerId) {
         this.customerId = customerId;
     }
 
+    // getteres and setters
     public int getCustomerId() {
         return customerId;
     }

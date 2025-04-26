@@ -4,25 +4,37 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author chamodpankaja
  */
 public class Book {
-    private int bookId;
-    private String bookTitle;
-    private int authorId;
-    private String ISBN;
-    private int publicationYear;
-    private double price;
-    private int stockQuantity;
     
+    private int bookId;// book Id
+    private String bookTitle;// book title
+    private int authorId; // author Id
+    private String ISBN; // isbn number
+    private int publicationYear; // publiction year
+    private double price; // price of the book
+    private int stockQuantity; // stock 
     
+    // default constructor
     public Book(){
     
     }
-
-    public Book(int bookId, String bookTitle, int authorId, String ISBN, int publicationYear, double price, int stockQuantity) {
+    // fully argument constructor with JSON annotations
+    @JsonCreator
+    public Book(
+            @JsonProperty("bookId")int bookId, 
+            @JsonProperty("bookTitle")String bookTitle, 
+            @JsonProperty("authorId")int authorId,
+            @JsonProperty("ISBN")String ISBN, 
+            @JsonProperty("publicationYear")int publicationYear, 
+            @JsonProperty("price")double price,
+            @JsonProperty("stockQuantity")int stockQuantity) {
         this.bookId = bookId;
         this.bookTitle = bookTitle;
         this.authorId = authorId;
@@ -33,7 +45,8 @@ public class Book {
     }
     
     
-
+    
+    // getters and setters
     public int getBookId() {
         return bookId;
     }

@@ -12,16 +12,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author chamodpankaja
  */
 public class CartItem {
-    private int bookId;
-    private String bookName;
-    private int quantity;
-    private double price;
+    
+    private int bookId;// book ID
+    private String bookName; // book name
+    private int quantity; // quantity of the item
+    private double price; // price 
     
 
-    // Default constructor (required for Jackson)
-    public CartItem() {}
+    // Default constructor
+    public CartItem() {
+    
+    }
 
-    // Full constructor with JSON annotations
+    // fully argument constructor with JSON annotations
     @JsonCreator
     public CartItem(
             @JsonProperty("bookId") int bookId,
@@ -34,7 +37,7 @@ public class CartItem {
         this.price =  price;
     }
 
-    // Getters and setters (required for Jackson)
+    // Getters and setters
     public int getBookId() {
         return bookId;
     }

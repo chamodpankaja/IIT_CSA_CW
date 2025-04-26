@@ -4,7 +4,9 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +28,16 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId,int customerId,String customerName,String customerMail, Date orderDate, List<CartItem> items, double total) {
+    // fully argument constructor with JSON annotations
+    @JsonCreator
+    public Order(
+            @JsonProperty("orderId")int orderId,
+            @JsonProperty("customerId")int customerId,
+            @JsonProperty("customerName")String customerName,
+            @JsonProperty("customerMail")String customerMail, 
+            @JsonProperty("Date")Date orderDate, 
+            @JsonProperty("items")List<CartItem> items,
+            @JsonProperty("total")double total) {
         this.orderId = orderId;
         this.customerId =  customerId;
         this.customerName =  customerName;

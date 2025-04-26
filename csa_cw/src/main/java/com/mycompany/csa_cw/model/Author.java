@@ -4,25 +4,36 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author chamodpankaja
  */
 public class Author {
-    private int id;
-    private String name;
-    private String biography;
+    
+    private int id; //author ID
+    private String name; // Author name
+    private String biography; // Author's biography
 
+    // default constructor
     public Author() {
     }
-
-    public Author(int id, String name, String biography) {
+    
+     // fully argument constructor with JSON annotations
+    @JsonCreator
+    public Author(
+            @JsonProperty("id")int id, 
+            @JsonProperty("name")String name,
+            @JsonProperty("biography")String biography) {
         this.id = id;
         this.name = name;
         this.biography = biography;
     }
     
 
+    // getters and setters
     public int getId() {
         return id;
     }

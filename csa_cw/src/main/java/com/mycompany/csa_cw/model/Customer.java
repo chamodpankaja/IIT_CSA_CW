@@ -4,21 +4,32 @@
  */
 package com.mycompany.csa_cw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author chamodpankaja
  */
+
 public class Customer {
     
-    private int id;
-    private String name;
-    private String email;
-    private String password;
+    private int id;// customer id
+    private String name;// customer name
+    private String email; // customer email
+    private String password;// customer password
 
+    //default constructor
     public Customer() {
     }
 
-    public Customer(int id, String name, String email, String password) {
+    // fully argument constructor with JSON annotations
+    @JsonCreator
+    public Customer(
+            @JsonProperty("id")int id,
+            @JsonProperty("name")String name,
+            @JsonProperty("email")String email,
+            @JsonProperty("password")String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -26,6 +37,7 @@ public class Customer {
     }
     
 
+    // getters and setters
     public int getId() {
         return id;
     }

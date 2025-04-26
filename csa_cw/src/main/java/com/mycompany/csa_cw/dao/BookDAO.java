@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,30 +22,54 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class BookDAO {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookDAO.class);
+
     private static List<Book> books = new ArrayList<>();
     private static AtomicInteger id = new AtomicInteger(100100);
     private final AuthorDAO authorDAO = new AuthorDAO();
 
     static {
 
-        books.add(new Book(id.getAndIncrement(), "The Lord of the Rings", 1,
-                "978-0-618-05326-7", 1954, 20.99, 100));
-        books.add(new Book(id.getAndIncrement(), "The Lord of the Rings", 1,
-                "978-0-618-05326-7", 1954, 20.99, 100));
+        books.add(new Book(id.getAndIncrement(), "Clean Code", 1,
+                "978-0-13-235088-4", 2008, 34.99, 50));
+        books.add(new Book(id.getAndIncrement(), "Effective Java", 2,
+                "978-0-13-468599-1", 2018, 45.00, 40));
+        books.add(new Book(id.getAndIncrement(), "Python Programming: An Introduction to Computer Science", 3,
+                "978-1-59028-275-5", 2010, 30.00, 60));
+        books.add(new Book(id.getAndIncrement(), "The C Programming Language", 4,
+                "978-0-13-110362-7", 1978, 25.99, 70));
+        books.add(new Book(id.getAndIncrement(), "The C++ Programming Language", 5,
+                "978-0-321-56384-2", 2013, 49.99, 30));
+        books.add(new Book(id.getAndIncrement(), "Refactoring: Improving the Design of Existing Code", 6,
+                "978-0-201-48567-7", 1999, 42.50, 35));
+        books.add(new Book(id.getAndIncrement(), "Unix Programming Environment", 7,
+                "978-0-13-937681-8", 1984, 29.99, 45));
+
     }
 
     public List<Book> getAllBooks() {
+        logger.info("Fetching all books");
 
         return new ArrayList<>(books);
     }
 
+//    public Book getBookById(int id) {
+//        return books.stream()
+//                .filter(b -> b.getBookId() == id)
+//                .findFirst()
+//                .orElseThrow(()
+//                        -> new BookNotFoundException("Book with ID: " + String.valueOf(id) + " not found"));
+//
+//    }
     public Book getBookById(int id) {
+        logger.debug("Fetching book with ID: {}", id);
         return books.stream()
                 .filter(b -> b.getBookId() == id)
                 .findFirst()
-                .orElseThrow(()
-                        -> new BookNotFoundException("Book with ID: " + String.valueOf(id) + " not found"));
-
+                .orElseThrow(() -> {
+                    logger.warn("Book not found with ID: {}", id);
+                    return new BookNotFoundException("Book with ID: " + id + " not found");
+                });
     }
 
     public Book addBook(Book book) {
@@ -82,7 +108,6 @@ public class BookDAO {
 //
 //        return "Book deleted successfully with ID: " + id;
 //    }
-    
     public void deleteBook(int id) {
         boolean removed = books.removeIf(book -> book.getBookId() == id);
 
@@ -90,32 +115,28 @@ public class BookDAO {
             throw new BookNotFoundException("Book with ID: " + id + " not found");
         }
 
-        
     }
 
-    
-    
-    public Book updateBook(int bookId, Book updatedBook){
-    
+    public Book updateBook(int bookId, Book updatedBook) {
+
         Book existingBook = getBookById(bookId);
-        
-        try{
-            
+
+        try {
+
             validateBookInput(updatedBook);
             validateBook(updatedBook);
-            
+
             existingBook.setBookTitle(updatedBook.getBookTitle());
             existingBook.setAuthorId(updatedBook.getAuthorId());
             existingBook.setISBN(updatedBook.getISBN());
             existingBook.setPublicationYear(updatedBook.getPublicationYear());
             existingBook.setPrice(updatedBook.getPrice());
             existingBook.setStockQuantity(updatedBook.getStockQuantity());
-            
+
             return existingBook;
-            
-        
-        }catch(InputMismatchException e){
-        
+
+        } catch (InputMismatchException e) {
+
             throw new InvalidInputException("Invalid input provided : " + e.getMessage());
         }
     }
@@ -157,8 +178,9 @@ public class BookDAO {
         }
 
     }
-    
-        public List<Book> getBooksByAuthor(int authorId) {
+
+    public List<Book> getBooksByAuthor(int authorId) {
+
         List<Book> authorBooks = new ArrayList<>();
         for (Book book : books) {
             if (book.getAuthorId() == authorId) {
@@ -169,27 +191,25 @@ public class BookDAO {
         if (authorBooks.isEmpty()) {
             throw new AuthorNotFoundException("No books found for author with ID: " + authorId);
         }
-        return authorBooks; 
+        return authorBooks;
     }
 
-    public void reserveBook(int bookId, int quantity)throws BookNotFoundException,OutOfStockException{
-    
+    public void reserveBook(int bookId, int quantity) throws BookNotFoundException, OutOfStockException {
+
         Book book = getBookById(bookId);
-        if(book.getStockQuantity() < quantity){
-        
-            throw new OutOfStockException("Only " + book.getStockQuantity() + " units available for book ID : "+ bookId);
+        if (book.getStockQuantity() < quantity) {
+
+            throw new OutOfStockException("Only " + book.getStockQuantity() + " units available for book ID : " + bookId);
         }
-        book.setStockQuantity(book.getStockQuantity()-quantity);
-            
+        book.setStockQuantity(book.getStockQuantity() - quantity);
+
     }
-    
-    public void restockBook(int bookId , int quantity) throws BookNotFoundException{
-    
-        Book book =  getBookById(bookId);
-        book.setStockQuantity(book.getStockQuantity()+quantity);
-        
-    
+
+    public void restockBook(int bookId, int quantity) throws BookNotFoundException {
+
+        Book book = getBookById(bookId);
+        book.setStockQuantity(book.getStockQuantity() + quantity);
+
     }
-        
-        
+
 }
