@@ -22,6 +22,7 @@ public class CustomerDAO {
     private static AtomicInteger id = new AtomicInteger(1);
 
     static {
+
         // add customers to the system
         customers.add(new Customer(id.getAndIncrement(), "Chamod Pankaja", "pankaja@gmail.com", "pankaja123"));
         customers.add(new Customer(id.getAndIncrement(), "Alice Johnson", "alice.johnson@example.com", "alicepass"));
