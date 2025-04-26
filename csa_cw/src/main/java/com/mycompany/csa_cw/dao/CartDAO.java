@@ -13,12 +13,21 @@ import com.mycompany.csa_cw.model.CartItem;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author chamodpankaja
+ */
 public class CartDAO {
 
+    // hashmap for the store the cart details
     private static Map<Integer, Cart> carts = new HashMap<>();
+    // book DAO object
     private final BookDAO bookDAO = new BookDAO();
+    // Customer DAO object
     private final CustomerDAO customerDAO = new CustomerDAO();
 
+    
+    // method for retrieve the cart detils of the customer
     public Cart getCart(int customerId) throws CustomerNotFoundException {
 
         Cart cart = carts.get(customerId);
@@ -29,7 +38,8 @@ public class CartDAO {
         return cart;
 
     }
-
+    
+    // method for add item into the cart
     public Cart addItem(int customerId, CartItem cartItem, BookDAO bookDAO) throws BookNotFoundException, OutOfStockException, CustomerNotFoundException {
 
         // Validate input
@@ -48,11 +58,11 @@ public class CartDAO {
 
         // Get or create cart
         Cart cart = carts.computeIfAbsent(customerId, k -> new Cart(customerId));
-
-        // Add item to cart
-        //cart.getItems().add(new CartItem(cartItem.getBookId(),cartItem.getBookName(), cartItem.getQuantity(),bookDAO.getBookById(cartItem.getBookId()).getPrice()));
+    
+        
         // get the book details
         Book book = bookDAO.getBookById(cartItem.getBookId());
+          // Add item to cart
         cart.getItems().add(new CartItem(
                 book.getBookId(),
                 book.getBookTitle(),
@@ -63,6 +73,7 @@ public class CartDAO {
 
     }
 
+    // method for the update item
     public Cart updateItem(int customerId, int bookId, int newQuantity) throws CustomerNotFoundException, BookNotFoundException, OutOfStockException {
 
         if (!customerDAO.customerExists(customerId)) {
@@ -96,6 +107,7 @@ public class CartDAO {
 
     }
 
+    // method for delete cart item
     public Cart deletItem(int customerId, int bookId) throws CustomerNotFoundException, BookNotFoundException {
 
         if (!customerDAO.customerExists(customerId)) {
