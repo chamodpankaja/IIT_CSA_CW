@@ -25,10 +25,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/customers/{customerId}/cart")
 public class CartResource {
+    
+    // CartDAO instance to manage cart related operations
     private final CartDAO cartDAO = new CartDAO();
+    // BookDAO instance to manage book related operations
     private final BookDAO bookDAO =  new BookDAO();
     
     
+    
+    /**
+     * retrieves cart for a given customer
+     * 
+     * @param customerId id of the customer
+     * @return HTTP response of the cart of the customer
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCart(@PathParam("customerId") int customerId){
@@ -36,8 +46,15 @@ public class CartResource {
         Cart cart = cartDAO.getCart(customerId);
         return Response.ok(cart).build();
         
-    
     }
+    
+    /**
+     * add an item to customer's cart
+     * 
+     * @param customerId id of the customer
+     * @param item the item to add to the cart
+     * @return HTTP response of the added item to the cart
+     */
     @POST
     @Path("/items")
     @Produces(MediaType.APPLICATION_JSON)
@@ -59,6 +76,14 @@ public class CartResource {
         
     }
     
+    /**
+     * update the quantity of specific cart item
+     * 
+     * @param customerId id of the customer
+     * @param bookId id of the book
+     * @param quantity new quantity for the item
+     * @return HTTP response of updated cart
+     */
     @PUT
     @Path("/items/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,7 +96,13 @@ public class CartResource {
         
     
     }
-    
+    /**
+     * delete the item from cart
+     * 
+     * @param customerId id of the customer
+     * @param bookId id of the book
+     * @return HTTP 204 no content response with successful deletion
+     */
     @DELETE
     @Path("/items/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
