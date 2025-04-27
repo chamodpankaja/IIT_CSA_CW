@@ -5,12 +5,8 @@
 package com.mycompany.csa_cw.resource;
 
 import com.mycompany.csa_cw.dao.BookDAO;
-import com.mycompany.csa_cw.exceptions.AuthorNotFoundException;
-import com.mycompany.csa_cw.exceptions.BookNotFoundException;
-import com.mycompany.csa_cw.exceptions.InvalidInputException;
 import com.mycompany.csa_cw.model.Book;
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,8 +25,14 @@ import javax.ws.rs.core.Response;
 @Path("/books")
 public class BookResource {
 
+    // BookDAO instance to manage book related operations
     private BookDAO bookDAO = new BookDAO();
 
+    /**
+     * retrieves the all books in the system
+     * 
+     * @return List of the all books in the system
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Book> getAllBooks() {
@@ -38,6 +40,13 @@ public class BookResource {
         return bookDAO.getAllBooks();
     }
 
+    
+    /**
+     * retrieve the specific book by book Id
+     * 
+     * @param bookId id of the book
+     * @return book object of the given bookId
+     */
     @GET
     @Path("/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -46,21 +55,12 @@ public class BookResource {
         return bookDAO.getBookById(bookId);
     }
 
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response addBook(Book book) {
-//        try {
-//            Book addedBook = bookDAO.addBook(book);
-//            return Response.ok().entity(addedBook).build();
-//        } catch (InvalidInputException e) {
-//        return Response.status(Response.Status.BAD_REQUEST)
-//                     .entity(Map.of(
-//                         "error", e.getMessage()
-//                     ))
-//                     .build();
-//        } 
-//    }
+    /**
+     * add a new book to the system
+     * 
+     * @param book the Book object to add
+     * @return HTTP response of newly added book
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -69,23 +69,29 @@ public class BookResource {
         return Response.ok().entity(addedBook).build();
     }
 
-//    @DELETE
-//    @Path("/{bookId}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response deleteBook(@PathParam("bookId") int id) {
-//        String message = bookDAO.deleteBook(id);
-//        return Response.ok(Map.of("message", message)).build();
-//    }
 
-    
+
+    /**
+     * delete book by book id
+     * 
+     * @param id id of the book
+     * @return HTTP 204 no content response with successful deletion
+     */
     @DELETE
     @Path("/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteBook(@PathParam("bookId") int id) {
         bookDAO.deleteBook(id);
-        return Response.noContent().build(); // Returns HTTP 204
+        return Response.noContent().build(); 
     }
 
+    /**
+     * update an existing book
+     * 
+     * @param id id of the book
+     * @param book the updated book object
+     * @return updated book object
+     */
     @PUT
     @Path("/{bookId}")
     @Consumes(MediaType.APPLICATION_JSON)
