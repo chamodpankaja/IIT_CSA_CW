@@ -24,7 +24,7 @@ public class BookDAO {
     private static List<Book> books = new ArrayList<>();
     // atomic integer to generate book id
     private static AtomicInteger id = new AtomicInteger(100100);
-    // author dao for access the methods belongs to author dao
+    // Instance of AuthorDAO for access the methods belongs to AuthorDAO
     private final AuthorDAO authorDAO = new AuthorDAO();
 
     static {
@@ -47,14 +47,24 @@ public class BookDAO {
 
     }
     
-    // get alll the book details in the system
+    /**
+     * retrieves all books in the system
+     * 
+     * @return list of all books
+     */
     public List<Book> getAllBooks() {
 
         return new ArrayList<>(books);
     }
  
     
-    // method for get book details by book ID
+    /**
+     * retrieves a book by book id
+     * 
+     * @param id the id of the book 
+     * @return book object if book is found
+     * @throws BookNotFoundException if the book is not found
+     */
     public Book getBookById(int id) {
         
         return books.stream()
@@ -65,7 +75,15 @@ public class BookDAO {
                 });
     }
 
-    // method for the add bok to system
+    /**
+     * add new book to the system
+     * 
+     * @param book book object to add
+     * @return new added book
+     * @throws InvalidInputException if validations are failed
+     * @throws AuthorNotFoundException when tries to add book with wrong authorId
+     *
+     */
     public Book addBook(Book book) {
 
         try {
@@ -93,7 +111,12 @@ public class BookDAO {
 
     }
 
-    //method for the remove book from the system
+   /**
+    * delete the book by bookId
+    * 
+    * @param id the id of the book 
+    * @throws BookNotFoundException if the book is not found in system
+    */
     public void deleteBook(int id) {
         boolean removed = books.removeIf(book -> book.getBookId() == id);
 
@@ -103,7 +126,14 @@ public class BookDAO {
 
     }
     
-    // method for the update book datails
+    /**
+     * update the existing book in the system
+     * 
+     * @param bookId id of the book
+     * @param updatedBook Book object with updated book information
+     * @return updated Book object
+     * @throws InvalidInputException if validations are failed
+     */
     public Book updateBook(int bookId, Book updatedBook) {
         
         // get the exact bok
@@ -129,7 +159,12 @@ public class BookDAO {
         }
     }
 
-    // method for input validation for the book
+    /**
+     * validates the fields of the book
+     * 
+     * @param book the book to validate
+     * @throws InvalidInputException if any field is invalid
+     */
     private void validateBookInput(Book book) throws InvalidInputException {
         if (book.getBookTitle() == null || book.getBookTitle().trim().isEmpty()) {
             throw new InvalidInputException("Book title cannot be empty");
@@ -145,13 +180,24 @@ public class BookDAO {
         }
     }
     
-    //method for validate book
+    /**
+     * additional validations for the book
+     * 
+     * @param book the book to validate
+     * @throws InvalidInputException if publication year is invalid
+     * @throws AuthorNotFoundException if author does not exist
+     */
     private void validateBook(Book book) throws InvalidInputException, AuthorNotFoundException {
         validateAuthorExists(book.getAuthorId());
         validatePublicationYear(book.getPublicationYear());
     }
 
-    // method for the check author if available in the system or not to prevent the wrong books adding to the system
+    /**
+     * validate the author is exists on the system or not
+     * 
+     * @param authotId the id of the author
+     * @throws AuthorNotFoundException if author is not found in the system
+     */
     private void validateAuthorExists(int authorId) throws AuthorNotFoundException {
         if (authorDAO.getAuthorById(authorId) == null) {
             throw new AuthorNotFoundException("Author with ID : " + String.valueOf(authorId) + " not found.");
@@ -159,7 +205,12 @@ public class BookDAO {
     }
     
     
-    // method for the validate the publication year of a book
+    /**
+     * validate the publication year of the book 
+     * 
+     * @param year the publication year of the book
+     * @throws InvalidInputException if year is to old or year is a future
+     */
     private void validatePublicationYear(int year) throws InvalidInputException {
 
         if (year > java.time.Year.now().getValue()) {
@@ -172,7 +223,13 @@ public class BookDAO {
 
     }
     
-    // method for the retrieve the author wrote books 
+    /**
+     * retrieves the book list written by specific author
+     * 
+     * @param authorId id of the author
+     * @return list of the books written by author
+     * @throws AuthorNotFoundException if no books found for the author
+     */
     public List<Book> getBooksByAuthor(int authorId) {
 
         List<Book> authorBooks = new ArrayList<>();
@@ -188,7 +245,14 @@ public class BookDAO {
         return authorBooks;
     }
 
-    // method for the contro; order reservations
+    /**
+     * reserves the book from given book stock quantity
+     * 
+     * @param bookId id of the book
+     * @param quantity quantity to reserve the book
+     * @throws BookNotFoundException if book is not found
+     * @throws OutOfStockException if there is insufficient book stock
+     */
     public void reserveBook(int bookId, int quantity) throws BookNotFoundException, OutOfStockException {
 
         Book book = getBookById(bookId);
@@ -200,7 +264,13 @@ public class BookDAO {
 
     }
     
-    // method for the add the restocked books to the system
+    /**
+     * restore the book for given stock quantity
+     * 
+     * @param bookId id of the book
+     * @param quantity quantity to restock the book
+     * @throws BookNotFoundException if book is not found
+     */
     public void restockBook(int bookId, int quantity) throws BookNotFoundException {
 
         Book book = getBookById(bookId);
