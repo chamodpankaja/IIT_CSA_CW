@@ -26,14 +26,22 @@ public class OrderDAO {
     private static Map<Integer , List<Order>> customerOrders = new HashMap<>();
     // atomic integer for the generate order id
     private static AtomicInteger orderId = new AtomicInteger(1);
-    // cart dao object
+    // Instance of CartDAO to manage customer carts
     private final CartDAO cartDAO =  new CartDAO();
-    // book dao object
+    //  Instance of BookDAO to retrieve book information
     private final BookDAO bookDAO = new BookDAO();
-    // customer dao object
+    // Instance of CustomerDAO to manage customer data
     private final CustomerDAO customerDAO = new CustomerDAO();
     
-    // method for create order
+    /**
+     * create a new order for customer
+     * 
+     * @param customerId id of the customer
+     * @return created order object
+     * @throws CustomerNotFoundException if customer not found with given ID
+     * @throws CartNotFoundException if the cart is empty or not found
+     * 
+     */
     public Order createOrder(int customerId) throws CustomerNotFoundException,CartNotFoundException{
         
         // check the customer is available on the system or not
@@ -64,8 +72,15 @@ public class OrderDAO {
         return order;
         
     }
+   
     
-    // method for retrieve the all customer orders
+    /**
+     * retrieves the all orders of the customer
+     * 
+     * @param customerId id of the customer
+     * @return list of the order objects of customer
+     * @throws CustomerNotFoundException if customer not found with given ID
+     */
     public List<Order> getCustomerOrders(int customerId) throws CustomerNotFoundException{
     
         if(!customerDAO.customerExists(customerId)){
@@ -77,7 +92,14 @@ public class OrderDAO {
     
     }
     
-    // method for the retrieve the order details by customer id
+    /**
+     * retrieves the specific order by its order ID
+     * 
+     * @param customerId id of the customer
+     * @param orderId id of the order
+     * @return order object
+     * @throws CustomerNotFoundException if customer not found with given ID
+     */
     public Order getOrderById(int customerId, int orderId ) throws CustomerNotFoundException{
     
         
