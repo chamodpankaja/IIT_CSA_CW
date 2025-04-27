@@ -22,7 +22,7 @@ public class AuthorDAO {
     private static List<Author> authors = new ArrayList<>();
     // atomic integer is used to generate the author id
     private static AtomicInteger id = new AtomicInteger(1);
-    //private static List<Book> books = new ArrayList<>();
+    
 
     static {
 
@@ -51,13 +51,23 @@ public class AuthorDAO {
 
     }
 
-    // method for gett all authors
+    /**
+     * retrieves the all authors in the system
+     * 
+     * @return new list of all \authors
+     */
     public List<Author> getAllAuthors() {
         return new ArrayList<>(authors);
 
     }
     
-    // method for get author details with their id
+   /**
+    * retrieves the author by their author id
+    * 
+    * @param id the Id of the author
+    * @return the author object
+    * @throws AuthorNotFoundException if author is not found
+    */
     public Author getAuthorById(int id) throws AuthorNotFoundException {
         
     return authors.stream()
@@ -68,7 +78,13 @@ public class AuthorDAO {
         
     }
     
-    // method for add author to system
+    /**
+     * method for  the add new author to the system
+     * 
+     * @param author object of Author
+     * @return added author object
+     * @throws  InvalidInputException when fields not properly validated
+     */
     public Author addAuthor(Author author) {
         
         // check the input fields are correct or not
@@ -86,7 +102,14 @@ public class AuthorDAO {
 
     }
     
-    // method for delete author
+    /**
+     * delete an author by their id
+     * 
+     * @param authorId of the author to delete
+     * @return success message when author is successfully deleted
+     * @throws AuthorNotFoundException if no author with specific id exists
+     */
+    
     public String deleteAuthor(int authorId) {
 
         boolean removed = authors.removeIf(author -> author.getId() == authorId);
@@ -99,7 +122,15 @@ public class AuthorDAO {
 
     }
     
-    //method for update wuthor details
+    /**
+     * method for the update existing author details
+     * 
+     * @param authorId the id of the author to update
+     * @param updatedAuthor the Author object of the updated information
+     * @return updated author object
+     * @throws AuthorNotFoundException if no author with specific id exists
+     * @throws InvalidInputException when fields not properly validated
+     */
     public Author updateAuthor(int authorId, Author updatedAuthor) {
 
         Author existingAuthor = getAuthorById(authorId);
@@ -119,8 +150,13 @@ public class AuthorDAO {
 
     }
     
-    //method to check author is exist in the system
     
+    /**
+     * check if an author exists in the system
+     * 
+     * @param  authorId the Id of the author to check
+     * @return true if author is exists otherwise false
+     */
     public boolean authorExists(int authorId) {
         return authors.stream().anyMatch(a -> a.getId() == authorId);
     }
