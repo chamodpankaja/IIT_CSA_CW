@@ -30,11 +30,17 @@ import javax.ws.rs.core.Response;
 @Path("/authors")
 public class AuthorResource {
     
-    
+    // AuthorDAo instance to manage author related operations
     private AuthorDAO authorDAO = new AuthorDAO();
+    // BookDAO instance to manage book related operations
     private BookDAO bookDAO  = new BookDAO();
     
     
+    /**
+     * retrieve the all authors in the system
+     * 
+     * @return list of all authors
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Author> getAllAuthors(){
@@ -42,7 +48,12 @@ public class AuthorResource {
         return authorDAO.getAllAuthors();
     }
     
-    
+    /**
+     * retrieves the specific author by their id
+     * 
+     * @param authorId id of the author
+     * @return author object
+     */
     @GET
     @Path("/{authorId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,6 +62,12 @@ public class AuthorResource {
         return authorDAO.getAuthorById(authorId);
     }
     
+    /**
+     * add a new author to the system
+     * 
+     * @param author the Author object to add
+     * @return HTTP response of the created author
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -64,7 +81,12 @@ public class AuthorResource {
         
     }
     
-    
+    /**
+     * delete author by their ID
+     * 
+     * @param authorId id of the author
+     * @return HTTP response of deleted author
+     */
     @DELETE
     @Path("/{authorId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -76,7 +98,13 @@ public class AuthorResource {
     
         
     }
-    
+    /**
+     * update and existing author by their id
+     * 
+     * @param authorId id of the author
+     * @param author object of the updated Author
+     * @return updated author object
+     */
     @PUT
     @Path("/{authorId}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -87,22 +115,13 @@ public class AuthorResource {
     }
     
     
-    
-//    @GET
-//    @Path("/{authorId}/books")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getBooksByAuthor(@PathParam("authorId") int authorId) {
-//        try {
-//            List<Book> books = authorDAO.getBookByAuthor(authorId);
-//            return Response.ok(books).build();
-//        } catch (AuthorNotFoundException e) {
-//            return Response.status(Response.Status.NOT_FOUND)
-//                    .entity(Map.of("error", "No books found", "message", e.getMessage()))
-//                    .build();
-//        }
-//    }
-//    
-    
+
+    /**
+     * retrieves all books written by a specific author.
+     * 
+     * @param authorId id of the author
+     * @return HTTP response containing list of books that wrote by specific author 
+     */
     @GET
     @Path("/{authorId}/books")
     @Produces(MediaType.APPLICATION_JSON)
