@@ -26,9 +26,15 @@ import javax.ws.rs.core.Response;
 @Path("/customers")
 public class CustomerResorce {
     
-    
+    // CustomerDAO instance to manage customer related operations
     private CustomerDAO customerDAO = new CustomerDAO();
     
+    
+    /**
+    * retrieves the list of all customers
+    * 
+    * @return list of all customers
+    */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Customer> getAllCustomers(){
@@ -36,6 +42,13 @@ public class CustomerResorce {
         return customerDAO.getAllCustomers();
     }
     
+    
+    /**
+     * retrieve specific customer by their id
+     * 
+     * @param customerId id of the customer
+     * @return customer details
+     */
     @GET
     @Path("/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +57,12 @@ public class CustomerResorce {
         return customerDAO.getCustomerById(cusomerId);
     }
     
+    /**
+     * add new customer
+     * 
+     * @param, customer object of containing new customer details
+     * @return HTTP response of the newly added customer
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -56,6 +75,12 @@ public class CustomerResorce {
                 .build();
     }
     
+    /**
+     * delete a customer by their id
+     * 
+     * @param customerId id of the customer
+     * @return HTTP 204 no content response with successful deletion
+     */
     @DELETE
     @Path("/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,7 +89,13 @@ public class CustomerResorce {
         return Response.noContent().build(); 
     }
     
-    
+    /**
+     * update the details of an existing customer
+     * 
+     * @param customerId id of the customer
+     * @param customer Customer object with updated customer details
+     * @return updated customer details
+     */
     @PUT
     @Path("/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
