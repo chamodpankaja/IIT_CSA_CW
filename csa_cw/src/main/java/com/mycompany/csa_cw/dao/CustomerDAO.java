@@ -32,13 +32,23 @@ public class CustomerDAO {
 
     }
 
-    // method for get the all customer details
+    /**
+     * retrieves the all customers in the system
+     * 
+     * @return List of the customers
+     */
     public List<Customer> getAllCustomers() {
 
         return new ArrayList<>(customers);
     }
     
-    // method for the get customer details using customer id
+   /**
+    * retrieves a customer by their ID
+    * 
+    * @param customerID id of the customer
+    * @return the customer object
+    * @throws CustomerNotFoundException if customer not found with given ID
+    */
     public Customer getCustomerById(int customerId) {
 
         return customers.stream()
@@ -50,7 +60,13 @@ public class CustomerDAO {
 
     }
 
-    // method for add customer to the system
+    /**
+     * add new customer to the system
+     * 
+     * @param customer object of contains the details of new customer
+     * @returns newly added Customer object
+     * @throws InvalidInputException when input validation are fails
+     */
     public Customer addCustomer(Customer customer) {
 
         validateCustomer(customer);
@@ -66,7 +82,15 @@ public class CustomerDAO {
 
     }
     
-    // method for the update customer details
+    /**
+     * update an existing customers details
+     * 
+     * @param customerId id of the customer
+     * @param updatedCustomer customer object containing the updated details
+     * @return updated customer object
+     * @throws CustomerNotFoundException if customer not found with given ID
+     * @throws InvalidInputException when input validation are fails
+     */
     public Customer updateCustomer(int customerId, Customer updatedCustomer) {
 
         Customer existingCustomer = getCustomerById(customerId);
@@ -80,7 +104,12 @@ public class CustomerDAO {
 
     }
     
-    // method for delete customer
+    /**
+     * delete the customer from the system by their id
+     * 
+     * @param customerId  id of the customer
+     * @throws CustomerNotFoundException if customer not found with given ID
+     */
     public void deleteCustomer(int customerId) {
 
         boolean removed = customers.removeIf(customer -> customer.getId() == customerId);
@@ -90,7 +119,12 @@ public class CustomerDAO {
         }
 
     }
-    // method for the validate cutomer input fields
+    /**
+     * validate the customer input fields
+     * 
+     * @param customer Customer object to validate fields
+     * @throws InvalidInputException when input validation are fails
+     */
     private void validateCustomer(Customer customer) throws InvalidInputException {
 
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
@@ -109,7 +143,12 @@ public class CustomerDAO {
 
     }
 
-    //method for the find the customer is exist on the system
+    /**
+     * Checks if a customer with the given ID exists in the system.
+     *
+     * @param customerId the ID to check
+     * @return true if customer exists, false otherwise
+     */
     public boolean customerExists(int customerId) {
         return customers.stream().anyMatch(c -> c.getId() == customerId);
     }
