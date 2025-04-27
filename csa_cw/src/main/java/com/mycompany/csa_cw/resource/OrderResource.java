@@ -23,9 +23,16 @@ import javax.ws.rs.core.Response;
 @Path("/customers/{customerId}/orders")
 public class OrderResource {
     
-    
+    // OrderDAO instance to manage order related operations
     private OrderDAO orderDAO  = new OrderDAO();
     
+    
+    /**
+     * create a new order for specific customer
+     * 
+     * @param customerId id of the customer
+     * @return HTTP response of created order
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -38,7 +45,12 @@ public class OrderResource {
     
     
     }
-    
+    /**
+     * retrieve the all orders placed by a customer
+     * 
+     * @param customerId id of the customer
+     * @return HTTP response containing all orders
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerOrders(@PathParam("customerId") int customerId){
@@ -47,6 +59,13 @@ public class OrderResource {
     
     }
     
+    /**
+     * retrieve the specific order by it's order id
+     * 
+     * @param customerId id of the customer
+     * @param orderId id of the order
+     * @return HTTP response containing the order
+     */
     @GET
     @Path("/{orderId}")
     @Produces(MediaType.APPLICATION_JSON)
